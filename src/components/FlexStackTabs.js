@@ -3,28 +3,6 @@ import styled from 'styled-components';
 import browser from 'detect-browser';
 import FlexTable from './FlexTable';
 
-const ThemedTable = styled.div`
-  .FlexTable, .ColumnContainer, .CellContainer, .EyebrowCell, .EyebrowContainer{
-    border: 0;
-    padding:0;
-  }
-`;
-
-var tabs = [
-  {
-    title: 'T1',
-    panel: <ThemedTable><FlexTable /></ThemedTable>
-  },
-  {
-    title: 'T2',
-    panel: 'P2'
-  },
-  {
-    title: 'T3',
-    panel: <ThemedTable><FlexTable /></ThemedTable>
-  }
-];
-
 var configuration = {
   defaultActive: 0,
   tabCount: 3,
@@ -44,7 +22,6 @@ const TemporaryBar = styled.div`
 `;
 
 const Container = styled.div`
-  margin-top: 50px;
   /* Presentation Attributes */
   border: 2px solid green;
   padding: 10px;
@@ -67,6 +44,7 @@ const Container = styled.div`
 
 const Tab = styled.div`
   /* Presentation Attributes */
+  position: relative;
   border: 2px solid red;
   padding: 10px;
   &:hover{
@@ -78,10 +56,10 @@ const Tab = styled.div`
   /* Flex Attributes */
   display: flex;
   flex: ${configuration.tabCount && configuration.tabCount === 1 ? '1 100%' : configuration.tabCount};
-  @media screen and (max-width: ${configuration.collapsePoint && configuration.collapsePoint ? configuration.collapsePoint : '768'}px ){
+  @media screen and (max-width: ${props => (props.collapsePoint && props.collapsePoint ? props.collapsePoint : '768')}px ){
     flex: 1 100%;
   }
-  @media screen and (min-width: ${configuration.collapsePoint && configuration.collapsePoint ? configuration.collapsePoint : '768'}px ){
+  @media screen and (min-width: ${props => (props.collapsePoint && props.collapsePoint ? props.collapsePoint : '768')}px ){
     order: 1;
   }
   flex-direction: column;
@@ -99,10 +77,18 @@ const Tab = styled.div`
     display:inline-block;
     width: calc(100% / ${configuration.tabCount});
     padding: 0;
-    @media screen and (max-width: ${configuration.collapsePoint && configuration.collapsePoint ? configuration.collapsePoint : '768'}px ){
+    @media screen and (max-width: ${props => (props.collapsePoint && props.collapsePoint ? props.collapsePoint : '768')}px ){
       width: 100%;
     }
   }
+`;
+
+const Label = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: auto;
+  display: block;
 `;
 
 const Panel = styled.div`
@@ -124,7 +110,7 @@ const Panel = styled.div`
   order: ${props => props.order && props.order};
 
 
-  @media screen and (min-width: ${configuration.collapsePoint && configuration.collapsePoint ? configuration.collapsePoint : '768'}px ){
+  @media screen and (min-width: ${props => (props.collapsePoint && props.collapsePoint ? props.collapsePoint : '768')}px ){
     order: 10;
   }
 
@@ -160,10 +146,16 @@ export default class FlexStackTabs extends Component {
     };
   }
   handleTabClick = tab => {
-    if (tab === this.state.currentTab) {
-      this.setState({
-        currentTab: tabs.length * 10
-      });
+    if (this.state.currentWidth <= configuration.collapsePoint) {
+      if (tab === this.state.currentTab) {
+        this.setState({
+          currentTab: this.props.tabs.length * 10
+        });
+      } else {
+        this.setState({
+          currentTab: tab
+        });
+      }
     } else {
       this.setState({
         currentTab: tab
@@ -172,7 +164,7 @@ export default class FlexStackTabs extends Component {
   };
 
   render() {
-    const renderTabs = tabs.map((item, i) => {
+    const renderTabs = this.props.tabs.map((item, i) => {
       let order = i + 1;
       let ieFallback = false;
       if (browser.name === 'ie' && browser.version === '9.0.0') {
@@ -188,16 +180,18 @@ export default class FlexStackTabs extends Component {
           onClick={() => this.handleTabClick(i)}
           className={`Tab ${ieFallback} ${this.state.currentTab === i ? `active` : ``}`}
         >
-          {item.title}
+          <Label className="Label">
+            {item.title}
+          </Label>
         </Tab>
       );
     });
 
-    const renderPanels = tabs.map((item, i) => {
+    const renderPanels = this.props.tabs.map((item, i) => {
       let index = i + 2;
       return (
         <Panel
-          key={i + tabs.length}
+          key={i + this.props.tabs.length}
           className={`Panel ${this.state.currentTab === i ? `active` : ``}`}
           order={this.state.currentTab + 1}
         >

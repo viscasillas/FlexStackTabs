@@ -7,6 +7,28 @@ import FlexTable from './components/FlexTable';
 import FlexStackTabs from './components/FlexStackTabs';
 import './index.css';
 
+const ThemedTable = styled.div`
+  .FlexTable, .ColumnContainer, .CellContainer, .EyebrowCell, .EyebrowContainer{
+    border: 0;
+    padding:0;
+  }
+`;
+
+var tabs = [
+  {
+    title: 'T1',
+    panel: <ThemedTable><FlexTable /></ThemedTable>
+  },
+  {
+    title: 'T2',
+    panel: 'P2'
+  },
+  {
+    title: 'T3',
+    panel: <ThemedTable>Something else on P3</ThemedTable>
+  }
+];
+
 const TabTheme = styled.div`
   .FlexStackTabs{
     padding: 0;
@@ -17,7 +39,11 @@ const TabTheme = styled.div`
   	background-color: #fff;
   	box-shadow: 1.4px 1.4px 5px 0 rgba(204, 204, 204, 0.47);
   	border: solid 1px #d8d8d8;
-
+    @media screen and (min-width: 768px){
+      margin-right: 40px;
+      margin-left: 40px;
+      margin-top: 50px;
+    }
   }
   .Tab{
     border: 0px;
@@ -30,6 +56,16 @@ const TabTheme = styled.div`
   	box-shadow: 2.2px 2px 4.6px 0.4px rgba(204, 204, 204, 0.47);
   	border: solid 1px #d8d8d8;
     border-bottom: 3px solid #fff;
+
+    .Label {
+      padding-left: 26px;
+      padding-right: 26px;
+      font-size: 15px;
+      font-family: GothamSSm;
+      font-weight: bold;
+      line-height: 1.67;
+      color: #414141;
+    }
 
     &:hover{
       background: #eee;
@@ -49,7 +85,7 @@ const TabTheme = styled.div`
 const App = () => (
   <div>
     <TabTheme>
-      <FlexStackTabs />
+      <FlexStackTabs tabs={tabs} collapsePoint={1200} />
     </TabTheme>
   </div>
 );
