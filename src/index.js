@@ -17,7 +17,8 @@ const ThemedTable = styled.div`
 var tabs = [
   {
     title: 'T1',
-    panel: <ThemedTable><FlexTable /></ThemedTable>
+    // panel: <ThemedTable><FlexTable /></ThemedTable>
+    panel: 'P1'
   },
   {
     title: 'T2',
@@ -25,7 +26,8 @@ var tabs = [
   },
   {
     title: 'T3',
-    panel: <ThemedTable>Something else on P3</ThemedTable>
+    // panel: <ThemedTable>Something else on P3</ThemedTable>
+    panel: 'P3'
   }
 ];
 
@@ -39,6 +41,8 @@ const TabTheme = styled.div`
   	background-color: #fff;
   	box-shadow: 1.4px 1.4px 5px 0 rgba(204, 204, 204, 0.47);
   	border: solid 1px #d8d8d8;
+
+    margin-top: 50px;
     @media screen and (min-width: 768px){
       margin-right: 40px;
       margin-left: 40px;
