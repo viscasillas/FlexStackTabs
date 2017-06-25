@@ -1,0 +1,26 @@
+{
+  "name": "rftable",
+  "version": "0.1.1",
+  "author": "Jose Viscasillas",
+  "private": false,
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.1.5",
+    "modernizr": "^3.5.0",
+    "modernizr-loader": "^1.0.1",
+    "react-scripts": "1.0.7"
+  },
+  "dependencies": {
+    "detect-browser": "^1.7.0",
+    "modernizr": "^3.5.0",
+    "react": "^15.6.1",
+    "styled-components": "^2.1.0",
+    "styled-components-theme": "^1.0.5",
+    "styled-props": "^1.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
